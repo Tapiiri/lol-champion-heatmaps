@@ -31,9 +31,9 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_folder, 
 
 
     # # Add the colorbar and other plot components
-    # plt.colorbar(heatmap)
-    # plt.grid(False)
-    # plt.axis('off')  # Turn off the axis for the image file
+    plt.colorbar(heatmap)
+    plt.grid(False)
+    plt.axis('off')  # Turn off the axis for the image file
 
      # Construct the full output path
     output_path = os.path.join(output_folder, 'heatmap_overlay.png')
