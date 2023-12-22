@@ -2,7 +2,6 @@ from utils.rotate_centerpoints import rotate_centerpoints
 from utils.estimate_bins import estimate_bins
 from utils.compute_zoom_limits import compute_zoom_limits
 from utils.create_heatmap import create_heatmap
-from utils.load_npz_bounding_boxes import load_npz_bounding_boxes
 from utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.overlay_heatmap_on_map import overlay_heatmap_on_map
 from utils.get_npz_file_paths import get_npz_file_paths
