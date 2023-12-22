@@ -9,29 +9,33 @@ from utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bound
 import argparse
 import os
 
-def visualize_centerpoints(file_names, output_folder):
+def visualize_centerpoints(file_names, output_folder, class_labels_dict={}):
     bounding_boxes_with_labels = load_and_combine_npz_bounding_boxes(file_names)
-    centerpoints_with_labels = convert_to_centerpoints(bounding_boxes_with_labels)
-    centerpoints = [(point[1], point[2]) for point in centerpoints_with_labels]
-
-    # Define the zoom range based on the concentration area
-    zoom_range = compute_zoom_limits(centerpoints)
-    image_size = (zoom_range[0][1], zoom_range[1][1])
-
-    bin_estimate = estimate_bins(centerpoints, (zoom_range[0][1], zoom_range[1][1]))
-
-    centerpoints = rotate_centerpoints(centerpoints, (image_size[0], image_size[1]))
-
-    # Create and show the heatmap with increased resolution and zoomed range
-    heatmap, _, _  = create_heatmap(centerpoints, image_size, bins=bin_estimate, show = False)
-
+    centerpoints_dict = convert_to_centerpoints(bounding_boxes_with_labels)
+    
     map_image_path = "assets/2x_2dlevelminimap.png"
 
-    extent = (zoom_range[0][0], zoom_range[0][1], zoom_range[1][0], zoom_range[1][1])
+    for class_label, centerpoints in centerpoints_dict.items():
+        # Define the zoom range based on the concentration area
+        zoom_range = compute_zoom_limits(centerpoints)
+        image_size = (zoom_range[0][1], zoom_range[1][1])
 
-    output_path = os.path.join(output_folder, 'heatmap_overlay.png')
+        bin_estimate = estimate_bins(centerpoints, (zoom_range[0][1], zoom_range[1][1]))
 
-    overlay_heatmap_on_map(heatmap, map_image_path, extent, output_path, save = True, show = False)
+        centerpoints = rotate_centerpoints(centerpoints, (image_size[0], image_size[1]))
+
+        # Create and show the heatmap with increased resolution and zoomed range
+        heatmap, _, _  = create_heatmap(centerpoints, image_size, bins=bin_estimate, show = False)
+
+        extent = (zoom_range[0][0], zoom_range[0][1], zoom_range[1][0], zoom_range[1][1])
+        
+        try:
+            class_name = class_labels_dict[class_label]
+        except KeyError:
+            class_name = class_label
+
+        output_path = os.path.join(output_folder, f'heatmap_overlay_{class_name}.png')
+        overlay_heatmap_on_map(heatmap, map_image_path, extent, output_path, title=class_name, save=True, show=False)
 
 
 def main():
@@ -39,6 +43,7 @@ def main():
     parser.add_argument('-o', '--output-folder', type=str, default='output',
                         help='Optional: Output folder for the saved heatmap image. Defaults to "output".')
     parser.add_argument('-f', '--file-names', nargs='+', help='List of NPZ filenames or a file containing NPZ filenames')
+    parser.add_argument('-c', '--class-names', type=str, help='List of NPZ class names in sequential order (eq. first class name is for class 0)')
     args = parser.parse_args()
 
     output_folder = args.output_folder
@@ -49,8 +54,14 @@ def main():
 
     file_names = args.file_names
     npz_file_paths = get_npz_file_paths(file_names)
+
+    class_names = []
+    class_names_file = args.class_names
+    if class_names_file:
+        with open(class_names_file, 'r') as file:
+            class_names = file.read().splitlines()
      
-    visualize_centerpoints(npz_file_paths, output_folder)
+    visualize_centerpoints(npz_file_paths, output_folder, class_labels_dict=class_names)
 
 
 if __name__ == "__main__":

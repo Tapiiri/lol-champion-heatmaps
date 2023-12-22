@@ -7,7 +7,7 @@ from .create_heatmap import create_heatmap
 import os
 
 
-def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, alpha=0.8, save=False, show = True):
+def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, alpha=0.8, save=False, show = True, title="Default Title"):
     """
     Overlay a heatmap on a map image.
 
@@ -23,6 +23,8 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, al
     # Load the map image
     map_img = mpimg.imread(map_image_path)
 
+    plt.figure()
+
     # Plot the map
     plt.imshow(map_img, extent=extent)
 
@@ -31,9 +33,11 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, al
 
 
     # # Add the colorbar and other plot components
+    
     plt.colorbar(heatmap)
     plt.grid(False)
     plt.axis('off')  # Turn off the axis for the image file
+    plt.title(title)
 
     # Save the figure
     if save:
@@ -41,7 +45,7 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, al
     if show:
         plt.show()
 
-    # plt.close()  # Close the figure to free up memory
+    plt.close()  # Close the figure to free up memory
 
 def main():
     centerpoints = [(1,2), (2,3), (3,4), (4,5)]  # Replace with your actual list of centerpoints

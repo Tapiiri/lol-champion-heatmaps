@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 def convert_to_centerpoints(bounding_boxes):
     """
     Convert bounding boxes to centerpoints.
@@ -8,10 +10,11 @@ def convert_to_centerpoints(bounding_boxes):
     Returns:
         list: List of centerpoints.
     """
-    centerpoints = []
+    centerpoints_dict = defaultdict(list)
     for boxes in bounding_boxes:
         for box in boxes:
+            class_label = box[0]
             x_center = (box[1] + box[3]) / 2  # Average of x_min and x_max
             y_center = (box[2] + box[4]) / 2  # Average of y_min and y_max
-            centerpoints.append((box[0], x_center, y_center))
-    return centerpoints
+            centerpoints_dict[class_label].append((x_center, y_center))
+    return centerpoints_dict
