@@ -9,22 +9,10 @@ from utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bound
 import argparse
 import os
 
-def main():
-    parser = argparse.ArgumentParser(description='Overlay heatmap on map and save as an image.')
-    parser.add_argument('-o', '--output-folder', type=str, default='output',
-                        help='Optional: Output folder for the saved heatmap image. Defaults to "output".')
-    parser.add_argument('-f', '--file-names', nargs='+', help='List of NPZ filenames or a file containing NPZ filenames')
-    args = parser.parse_args()
-
-    output_folder = args.output_folder
-    # Check if the output folder exists, and create it if it doesn't
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder, exist_ok=True)
-
-    npz_file_paths = get_npz_file_paths(args.file_names)
-
-    bounding_boxes = load_and_combine_npz_bounding_boxes(npz_file_paths)
-    centerpoints = convert_to_centerpoints(bounding_boxes)
+def visualize_centerpoints(file_names, output_folder):
+    bounding_boxes_with_labels = load_and_combine_npz_bounding_boxes(file_names)
+    centerpoints_with_labels = convert_to_centerpoints(bounding_boxes_with_labels)
+    centerpoints = [(point[1], point[2]) for point in centerpoints_with_labels]
 
     # Define the zoom range based on the concentration area
     zoom_range = compute_zoom_limits(centerpoints)
@@ -41,8 +29,26 @@ def main():
 
     extent = (zoom_range[0][0], zoom_range[0][1], zoom_range[1][0], zoom_range[1][1])
 
-    overlay_heatmap_on_map(heatmap, map_image_path, extent, args.output_folder, save = True, show = False)
+    overlay_heatmap_on_map(heatmap, map_image_path, extent, output_folder, save = True, show = False)
 
+
+def main():
+    parser = argparse.ArgumentParser(description='Overlay heatmap on map and save as an image.')
+    parser.add_argument('-o', '--output-folder', type=str, default='output',
+                        help='Optional: Output folder for the saved heatmap image. Defaults to "output".')
+    parser.add_argument('-f', '--file-names', nargs='+', help='List of NPZ filenames or a file containing NPZ filenames')
+    args = parser.parse_args()
+
+    output_folder = args.output_folder
+
+    # Check if the output folder exists, and create it if it doesn't
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder, exist_ok=True)
+
+    file_names = args.file_names
+    npz_file_paths = get_npz_file_paths(file_names)
+     
+    visualize_centerpoints(npz_file_paths, output_folder)
 
 
 if __name__ == "__main__":

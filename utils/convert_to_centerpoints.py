@@ -13,5 +13,5 @@ def convert_to_centerpoints(bounding_boxes):
         for box in boxes:
             x_center = (box[1] + box[3]) / 2  # Average of x_min and x_max
             y_center = (box[2] + box[4]) / 2  # Average of y_min and y_max
-            centerpoints.append((x_center, y_center))
+            centerpoints.append((box[0], x_center, y_center))
     return centerpoints
