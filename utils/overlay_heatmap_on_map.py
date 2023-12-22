@@ -7,7 +7,7 @@ from .create_heatmap import create_heatmap
 import os
 
 
-def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_folder, alpha=0.8, save=False, show = True):
+def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_path, alpha=0.8, save=False, show = True):
     """
     Overlay a heatmap on a map image.
 
@@ -34,9 +34,6 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_folder, 
     plt.colorbar(heatmap)
     plt.grid(False)
     plt.axis('off')  # Turn off the axis for the image file
-
-     # Construct the full output path
-    output_path = os.path.join(output_folder, 'heatmap_overlay.png')
 
     # Save the figure
     if save:

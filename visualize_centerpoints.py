@@ -29,7 +29,9 @@ def visualize_centerpoints(file_names, output_folder):
 
     extent = (zoom_range[0][0], zoom_range[0][1], zoom_range[1][0], zoom_range[1][1])
 
-    overlay_heatmap_on_map(heatmap, map_image_path, extent, output_folder, save = True, show = False)
+    output_path = os.path.join(output_folder, 'heatmap_overlay.png')
+
+    overlay_heatmap_on_map(heatmap, map_image_path, extent, output_path, save = True, show = False)
 
 
 def main():
