@@ -1,2 +1,3 @@
 output
 npz_file_paths.txt
+__pycache__/
