@@ -1,0 +1,12 @@
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_0.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_1.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_2.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_3.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_4.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_5.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_6.npz
+D:/DeepLeague100K/clusters_cleaned/train/data_training_set_cluster_7.npz
+
+
+
+

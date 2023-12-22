@@ -5,6 +5,8 @@ from utils.create_heatmap import create_heatmap
 from utils.load_npz_bounding_boxes import load_npz_bounding_boxes
 from utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.overlay_heatmap_on_map import overlay_heatmap_on_map
+from utils.get_npz_file_paths import get_npz_file_paths
+from utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bounding_boxes
 import argparse
 import os
 
@@ -12,16 +14,17 @@ def main():
     parser = argparse.ArgumentParser(description='Overlay heatmap on map and save as an image.')
     parser.add_argument('-o', '--output-folder', type=str, default='output',
                         help='Optional: Output folder for the saved heatmap image. Defaults to "output".')
-    parser.add_argument('--path', type=str, required=True, help='Path to the NPZ file.')
+    parser.add_argument('-f', '--file-names', nargs='+', help='List of NPZ filenames or a file containing NPZ filenames')
     args = parser.parse_args()
 
     output_folder = args.output_folder
-
     # Check if the output folder exists, and create it if it doesn't
     if not os.path.exists(output_folder):
         os.makedirs(output_folder, exist_ok=True)
 
-    bounding_boxes = load_npz_bounding_boxes(args.path)
+    npz_file_paths = get_npz_file_paths(args.file_names)
+
+    bounding_boxes = load_and_combine_npz_bounding_boxes(npz_file_paths)
     centerpoints = convert_to_centerpoints(bounding_boxes)
 
     # Define the zoom range based on the concentration area
