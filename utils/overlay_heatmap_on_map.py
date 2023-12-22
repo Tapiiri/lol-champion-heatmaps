@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-from .mirror_centerpoints import mirror_centerpoints
+from .rotate_centerpoints import rotate_centerpoints
 from .estimate_bins import estimate_bins
 from .compute_zoom_limits import compute_zoom_limits
 from .create_heatmap import create_heatmap
@@ -43,7 +43,7 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_folder, 
         plt.savefig(output_path)#, bbox_inches='tight', pad_inches=0)
     if show:
         plt.show()
-        
+
     # plt.close()  # Close the figure to free up memory
 
 def main():
@@ -54,7 +54,7 @@ def main():
 
     bin_estimate = estimate_bins(centerpoints, (zoom_range[0][1], zoom_range[1][1]))
 
-    centerpoints = mirror_centerpoints(centerpoints, image_size[0])
+    centerpoints = rotate_centerpoints(centerpoints, image_size[0])
 
     # Create and show the heatmap with increased resolution and zoomed range
     heatmap = create_heatmap(centerpoints, image_size, bins=bin_estimate)
