@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.ndimage import gaussian_filter
 
-def create_heatmap(centerpoints, image_size, bins=200, zoom_range=None):
+def create_heatmap(centerpoints, image_size, bins=200, zoom_range=None, show = False):
     """
     Create a heatmap from centerpoints with higher resolution and zoom capability.
 
@@ -26,24 +26,25 @@ def create_heatmap(centerpoints, image_size, bins=200, zoom_range=None):
 
     heatmap, xedges, yedges = np.histogram2d(x_points, y_points, bins=bins, range=hist_range)
 
-    # Create an image
-    plt.imshow(heatmap.T, origin='lower', cmap='hot', interpolation='nearest', extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
-    plt.colorbar()
-    plt.title("Heatmap of Centerpoints")
-    plt.xlabel("X Coordinate")
-    plt.ylabel("Y Coordinate")
+    if show:
+        # Create an image
+        plt.imshow(heatmap.T, origin='lower', cmap='hot', interpolation='nearest', extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
+        plt.colorbar()
+        plt.title("Heatmap of Centerpoints")
+        plt.xlabel("X Coordinate")
+        plt.ylabel("Y Coordinate")
 
-    # # After creating the 2D histogram:
-    # heatmap, xedges, yedges = np.histogram2d(x_points, y_points, bins=bins, range=hist_range)
+        # # After creating the 2D histogram:
+        # heatmap, xedges, yedges = np.histogram2d(x_points, y_points, bins=bins, range=hist_range)
 
-    # # Apply a Gaussian filter to smooth the heatmap
-    # smoothed_heatmap = gaussian_filter(heatmap, sigma=1)  # You can adjust the sigma value
+        # # Apply a Gaussian filter to smooth the heatmap
+        # smoothed_heatmap = gaussian_filter(heatmap, sigma=1)  # You can adjust the sigma value
 
-    # # Then create an image using the smoothed heatmap
-    # plt.imshow(smoothed_heatmap.T, origin='lower', cmap='hot', interpolation='nearest', extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
-    # plt.colorbar()
+        # # Then create an image using the smoothed heatmap
+        # plt.imshow(smoothed_heatmap.T, origin='lower', cmap='hot', interpolation='nearest', extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
+        # plt.colorbar()
 
-    plt.show()
+        plt.show()
 
     return heatmap, xedges, yedges
 

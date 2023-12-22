@@ -6,11 +6,20 @@ from utils.load_npz_bounding_boxes import load_npz_bounding_boxes
 from utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.overlay_heatmap_on_map import overlay_heatmap_on_map
 import argparse
+import os
 
 def main():
-    parser = argparse.ArgumentParser(description='Convert bounding boxes to centerpoints.')
+    parser = argparse.ArgumentParser(description='Overlay heatmap on map and save as an image.')
+    parser.add_argument('-o', '--output-folder', type=str, default='output',
+                        help='Optional: Output folder for the saved heatmap image. Defaults to "output".')
     parser.add_argument('--path', type=str, required=True, help='Path to the NPZ file.')
     args = parser.parse_args()
+
+    output_folder = args.output_folder
+
+    # Check if the output folder exists, and create it if it doesn't
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder, exist_ok=True)
 
     bounding_boxes = load_npz_bounding_boxes(args.path)
     centerpoints = convert_to_centerpoints(bounding_boxes)
@@ -24,13 +33,13 @@ def main():
     centerpoints = rotate_centerpoints(centerpoints, (image_size[0], image_size[1]))
 
     # Create and show the heatmap with increased resolution and zoomed range
-    heatmap, _, _  = create_heatmap(centerpoints, image_size, bins=bin_estimate)
+    heatmap, _, _  = create_heatmap(centerpoints, image_size, bins=bin_estimate, show = False)
 
     map_image_path = "assets/2x_2dlevelminimap.png"
 
     extent = (zoom_range[0][0], zoom_range[0][1], zoom_range[1][0], zoom_range[1][1])
 
-    overlay_heatmap_on_map(heatmap, map_image_path, extent)
+    overlay_heatmap_on_map(heatmap, map_image_path, extent, args.output_folder, save = True, show = False)
 
 
 

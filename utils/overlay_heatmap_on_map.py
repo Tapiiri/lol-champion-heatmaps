@@ -4,9 +4,10 @@ from .mirror_centerpoints import mirror_centerpoints
 from .estimate_bins import estimate_bins
 from .compute_zoom_limits import compute_zoom_limits
 from .create_heatmap import create_heatmap
+import os
 
 
-def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, alpha=0.8):
+def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, output_folder, alpha=0.8, save=False, show = True):
     """
     Overlay a heatmap on a map image.
 
@@ -26,13 +27,24 @@ def overlay_heatmap_on_map(heatmap_data, map_image_path, extent, alpha=0.8):
     plt.imshow(map_img, extent=extent)
 
     # Overlay the heatmap
-    plt.imshow(heatmap_data, origin='lower', cmap='hot', interpolation='nearest', alpha=alpha, extent=extent)
+    heatmap = plt.imshow(heatmap_data, origin='lower', cmap='hot', interpolation='nearest', alpha=alpha, extent=extent)
 
-    # Add the colorbar and other plot components
-    plt.colorbar()
-    plt.grid(False)  # Turn off the grid if needed
-    plt.axis('on')  # Turn off the axis if needed
-    plt.show()
+
+    # # Add the colorbar and other plot components
+    # plt.colorbar(heatmap)
+    # plt.grid(False)
+    # plt.axis('off')  # Turn off the axis for the image file
+
+     # Construct the full output path
+    output_path = os.path.join(output_folder, 'heatmap_overlay.png')
+
+    # Save the figure
+    if save:
+        plt.savefig(output_path)#, bbox_inches='tight', pad_inches=0)
+    if show:
+        plt.show()
+        
+    # plt.close()  # Close the figure to free up memory
 
 def main():
     centerpoints = [(1,2), (2,3), (3,4), (4,5)]  # Replace with your actual list of centerpoints
