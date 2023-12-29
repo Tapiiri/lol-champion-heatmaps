@@ -6,12 +6,13 @@ from utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.overlay_heatmap_on_map import overlay_heatmap_on_map
 from utils.get_npz_file_paths import get_npz_file_paths
 from utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bounding_boxes
+from utils.load_centerpoints_from_npz import load_centerpoints_from_npz
 import argparse
 import os
 
 def visualize_centerpoints(file_names, output_folder, class_labels_dict={}):
-    bounding_boxes_with_labels = load_and_combine_npz_bounding_boxes(file_names)
-    centerpoints_dict = convert_to_centerpoints(bounding_boxes_with_labels)
+    # bounding_boxes_with_labels = load_and_combine_npz_bounding_boxes(file_names)
+    centerpoints_dict = load_centerpoints_from_npz(file_names[0]) #convert_to_centerpoints(bounding_boxes_with_labels)
     
     map_image_path = "assets/2x_2dlevelminimap.png"
 
