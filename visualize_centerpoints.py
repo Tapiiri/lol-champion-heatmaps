@@ -32,8 +32,9 @@ def visualize_centerpoints(file_names, output_folder, class_labels_dict={}):
         except KeyError:
             class_name = class_label
 
+        title = f"Location Heatmap of {class_name}"
         output_path = os.path.join(output_folder, f'heatmap_overlay_{class_name}.png')
-        overlay_heatmap_on_map(heatmap, map_image_path, extent, output_path, title=class_name, save=True, show=False)
+        overlay_heatmap_on_map(heatmap, map_image_path, extent, output_path, title=title, save=True, show=False)
 
 
 def main():
