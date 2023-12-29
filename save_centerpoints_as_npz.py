@@ -1,9 +1,9 @@
 import numpy as np
 import argparse
 import os
-from utils.convert_to_centerpoints import convert_to_centerpoints
+from utils.deep_league_utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.get_npz_file_paths import get_npz_file_paths
-from utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bounding_boxes
+from utils.deep_league_utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bounding_boxes
 
 def save_centerpoints_as_npz(centerpoints_dict, output_file):
     """
