@@ -142,4 +142,4 @@ python convert_deep_league_to_centerpoints.py -o OUTPUT_PATH -f FILE_NAMES -c CL
 ---
 
 ## Acknowledgements
-Thanks for [Faarza](https://github.com/farzaa) for [creating the DeepLeague dataset using computer vision](https://github.com/farzaa/DeepLeague). It's one of the very few (so far the only one that I've found) spatial datasets of League of Legends champion location data, and it was crucial in getting this prototype up and running without requiring data collection!
+Thanks for [Faarza](https://github.com/farzaa) for [creating the DeepLeague dataset by reading lolesports.com live match data](https://github.com/farzaa/DeepLeague). It's one of the very few (so far the only one that I've found) spatial datasets of League of Legends champion location data, and it was crucial in getting this prototype up and running without requiring data collection!
