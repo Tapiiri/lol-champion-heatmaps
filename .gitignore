@@ -3,3 +3,5 @@ npz_file_paths.txt
 __pycache__/
 
 venv
+
+.env
