@@ -3,7 +3,7 @@ from utils.estimate_bins import estimate_bins
 from utils.compute_zoom_limits import compute_zoom_limits
 from utils.create_heatmap import create_heatmap
 from utils.overlay_heatmap_on_map import overlay_heatmap_on_map
-from utils.get_npz_file_paths import get_npz_file_paths
+from utils.get_file_paths import get_file_paths
 from utils.load_centerpoints_from_npz import load_centerpoints_from_npz
 import argparse
 import os
@@ -52,7 +52,7 @@ def main():
         os.makedirs(output_folder, exist_ok=True)
 
     file_names = args.file_names
-    npz_file_paths = get_npz_file_paths(file_names)
+    npz_file_paths = get_file_paths(file_names, "npz")
 
     class_names = []
     class_names_file = args.class_names

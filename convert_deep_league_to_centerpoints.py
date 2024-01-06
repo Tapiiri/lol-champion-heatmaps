@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import os
 from utils.deep_league_utils.convert_to_centerpoints import convert_to_centerpoints
-from utils.get_npz_file_paths import get_npz_file_paths
+from utils.get_file_paths import get_file_paths
 from utils.deep_league_utils.load_and_combine_npz_bounding_boxes import load_and_combine_npz_bounding_boxes
 
 def save_centerpoints_as_npz(centerpoints_dict, output_file):
@@ -39,7 +39,7 @@ def main():
     args = parser.parse_args()
 
     file_names = args.file_names
-    npz_file_paths = get_npz_file_paths(file_names)
+    npz_file_paths = get_file_paths(file_names, "npz")
      
     bounding_boxes_with_labels = load_and_combine_npz_bounding_boxes(npz_file_paths)
     centerpoints_dict = convert_to_centerpoints(bounding_boxes_with_labels)
