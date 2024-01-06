@@ -30,7 +30,10 @@ def visualize_centerpoints(file_names, output_folder, class_labels_dict={}):
         
         try:
             class_name = class_labels_dict[class_label]
-        except KeyError:
+        except IndexError:
+            class_name = class_label
+        
+        if len(class_name) == 0:
             class_name = class_label
 
         title = f"Location Heatmap of {class_name}"
