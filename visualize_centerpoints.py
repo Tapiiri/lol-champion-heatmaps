@@ -13,14 +13,15 @@ def visualize_centerpoints(file_names, output_folder, class_labels_dict={}):
     
     map_image_path = "assets/2x_2dlevelminimap.png"
 
+    all_centerpoints = sum([ values for values in centerpoints_dict.values()], [])
+    # Define the zoom range based on the concentration area
+    zoom_range = compute_zoom_limits(all_centerpoints)
+    image_size = (zoom_range[0][1], zoom_range[1][1])
+
+    bin_estimate = 100 or estimate_bins(centerpoints, (zoom_range[0][1], zoom_range[1][1]))
+
     for class_label, centerpoints in centerpoints_dict.items():
-        # Define the zoom range based on the concentration area
-        zoom_range = compute_zoom_limits(centerpoints)
-        image_size = (zoom_range[0][1], zoom_range[1][1])
-
-        bin_estimate = estimate_bins(centerpoints, (zoom_range[0][1], zoom_range[1][1]))
-
-        centerpoints = rotate_centerpoints(centerpoints, (image_size[0], image_size[1]))
+        #centerpoints = rotate_centerpoints(centerpoints, (image_size[0], image_size[1]))
 
         # Create and show the heatmap with increased resolution and zoomed range
         heatmap, _, _  = create_heatmap(centerpoints, image_size, bins=bin_estimate, show = False)
