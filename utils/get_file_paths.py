@@ -15,14 +15,19 @@ def get_file_paths(file_names_arg, target_file_type):
     """
     # If the file_names_arg is a filename, read the file and get a list of file names
     print("Reading file names...")
+    more_than_one_file_arg = len(file_names_arg) > 1
     first_file = file_names_arg[0]
-    if len(file_names_arg) == 1 and os.path.isfile(first_file) and not f".{target_file_type}" in first_file:
+    first_file_exists = os.path.isfile(first_file)
+    if not more_than_one_file_arg and first_file_exists:
         with open(first_file, 'r') as f:
             file_paths = [line.strip() for line in f.readlines()]
         print(f"Found {len(file_paths)} files in {first_file}")
     else:
         # Otherwise, assume it's already a list of file names
-        print("No file names file found. Assuming file_names_arg is a list of file names.")
+        if more_than_one_file_arg:
+            print(f"Found {len(file_names_arg)} files (directly passed as arguments)")
+        elif not first_file_exists:
+            raise ValueError(f"File not found: {first_file}")
         file_paths = file_names_arg
 
     # Confirm that all file paths have the same ending
