@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+from typedefs.centerpoint import Centerpoint
+
 def convert_to_centerpoints(df, existing_classes=[]):
     """
     Convert TLoL gameobject data to centerpoints
@@ -21,6 +23,7 @@ def convert_to_centerpoints(df, existing_classes=[]):
         class_label = classes.index(name)
         is_alive = hp > 0
         if is_alive:  # Only include alive points
-            centerpoints_dict[class_label].append((x_coord, y_coord))
+            centerpoint = Centerpoint({"classid": class_label, "point": [x_coord, y_coord], "timestamp": timestamp, "health": hp, "gameid": game_id, "teamid": team})
+            centerpoints_dict[class_label].append(centerpoint)
 
     return centerpoints_dict, classes
