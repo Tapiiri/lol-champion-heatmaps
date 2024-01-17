@@ -3,6 +3,7 @@ import argparse
 import math
 from utils.deep_league_utils.convert_to_centerpoints import convert_to_centerpoints
 from utils.get_file_paths import get_file_paths
+from utils.get_output_path import get_output_path
 from utils.save_centerpoints_as_npz import save_centerpoints_as_npz
 from utils.save_class_labels_as_txt import save_class_labels_as_txt
 from utils.tlol_utils.load_and_combine_tlol_db import load_and_combine_tlol_db
@@ -40,6 +41,7 @@ def main():
     file_names = args.file_names
     output_amount = args.output_amount
     db_file_paths = get_file_paths(file_names, target_file_type="db")
+    output_path = get_output_path(args.output_path, default_filename="output", default_file_type="npz")
 
     all_classes = []
     
@@ -53,9 +55,9 @@ def main():
         farsight_json_data = load_and_combine_tlol_db(db_file_paths[i:j])
         centerpoints_dict, classes = convert_to_centerpoints(farsight_json_data, all_classes)
         all_classes = classes
-        save_centerpoints_as_npz(centerpoints_dict, args.output_path.replace(".npz", f"_{i}.npz"))
+        save_centerpoints_as_npz(centerpoints_dict, output_path.replace(".npz", f"_{i}.npz"))
 
-    save_class_labels_as_txt(all_classes, args.output_path.replace(".npz", f"_classes.txt"))
+    save_class_labels_as_txt(all_classes, output_path.replace(".npz", f"_classes.txt"))
 
 
 
